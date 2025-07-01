@@ -1,0 +1,113 @@
+% !TeX spellcheck = en_GB
+\documentclass[UKenglish,toc=sectionentrywithdots]{scrartcl}
+\usepackage{FS-pakete_en}
+\usepackage{translations} % for quick translations
+
+% Last updated: 01.07.2025
+
+% Important commands
+%====================================================================
+\DraftwatermarkOptions{stamp=true} % Watermark, true or false
+\newcommand{\Date}{00.00.2000}
+\newcommand{\Chair}{Chairperson} % Needs to sign
+\newcommand{\MinutesKeeper}{Keeper of minutes} % Needs to sign
+\newcommand{\Starttime}{18:30} % Start of meeting
+\newcommand{\Endtime}{19:30} % End of meeting
+
+% --- Ignored if left empty ---
+\newcommand{\Translator}{} % Does not need to sign
+\newcommand{\Subtitle}{}
+
+%====================================================================
+
+% The important part starts here
+\begin{document}
+	\Begin
+
+	\AI{Confirmation of FSR-meeting minutes}
+	\Minutes{German}{01.01.2000}{for}{against}{abst.}
+
+	\AI{Reports []}
+	\begin{itemize}
+		\lis{Report 1}
+	\end{itemize}
+
+	\AI{Other}
+	\begin{itemize}
+		\lis{Other 1}
+	\end{itemize}
+		
+		
+	% Examples
+	\poll{Question}{for}{against}{abstention}{invalid}
+	\begin{poll-list}[lll]{Poll}{Question}
+		Text:  & for & against\\\hline
+		Option1: & Voting1 & A\\
+		Option2: & Voting2 & B
+	\end{poll-list}
+	\RRP[1]{Request}{Content}
+	
+	%===================================================================
+	\End
+	\Signs
+	%\DCFSR[Time]{Date} % For online meetings; First Argument only, if time differs
+	\NFSR[Time]{Date}{Place} % First Argument only, if time differs, otherwise [Time] can be removed
+
+	%===================================================================
+	\Attendance{
+		Person 1,
+		Person 2,}{}
+	
+	% glossary not really needed
+	%\vfill
+	%\textbf{For an explanation of the abbreviations, see the glossary}
+	%\include{../glossar_en}
+\end{document}
+
+% --- Necessary for every Minutes: ---
+
+% \Begin           - Creates title, toc etc.
+% \Minutes[]{de/en}{01.01.2000}{For}{Against}{Abstention}
+%  - Poll for adopting minutes. Optional Argument for text after poll.
+% \End             - Creates one line of text with end time
+% \Signs[7cm]      - Crates the fields to sign. Optional argument changes the size
+%                    of the field for the keeper of minutes, if the name is too long
+% \Attendance{Persons,}{}
+% - Syntax VERY important, arguments must end with ",}"!
+%   For a short list separate the names in the first argument with commas,
+%   leave the second argument empty
+%   For a list as appendix in two columns, split names into first and second argument
+
+%====================================================================
+% --- Other commands ---
+
+% \NFSR[Time]{Date}{Place}  - When/where the next meeting takes place
+% \DCFSR[Time]{Date}        - If the next meeting is online on discord
+
+% \AI{Title}                - Creates an AI segment. The counter Nr is increased.
+% \Attach{Title}            - Creates an attachment segment. The counter Anh is increased.
+% \RRP[1]{Request}{Content} - Creates a box for a request on the rules of procedures.
+%                             First argument controls the width of the box, compared to \textwidth
+
+% \poll{Question}{For}{Against}{Abstention}{Invalid}
+% - Leave abstention or invalid empty depending on opinion poll, normal poll or secret poll.
+% \begin{poll-list}[ll]{Poll}{Question}    Option & Votes\\    \end{poll-mo}
+% - List environment for polls, to create any poll
+
+% - Shorthands
+% \tit -> \textit
+% \ttt -> \texttt
+% \tbf -> \textbf
+% \lis -> \item[]\textbf  % for lists
+
+%====================================================================
+% --- Translations ---
+
+% Translations can be used as \WORD[abbrev.]. If no optional argument is given
+% the full translation is returned, else it will be abbreviated.
+% E.g.:
+% \FSR   -> Fachschafts' Council
+% \FSR[] -> FC
+
+% The following translations exist:
+% FSR, FSV, FSVV, Arbeitskreis, FSK, Fachgruppe, FK, BK, AStA

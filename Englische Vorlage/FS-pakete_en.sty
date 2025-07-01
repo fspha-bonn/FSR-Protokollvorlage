@@ -1,0 +1,194 @@
+% Last updated: 01.07.2025
+% Präambel:
+\KOMAoptions{fontsize=11pt, paper=a4} % Setzten der Schrift- und Papiergröße
+\KOMAoptions{listof=totoc} % Einbindung Tabellen- und Bildverzeichnis in das Inhaltsverzeichnis
+\KOMAoptions{DIV=11} % Bestimmung Randbreite
+
+% ------------------------------------------------------------------------------------
+
+% PAKETE EINBINDEN
+\RequirePackage{iftex}
+\RequirePackage{xifthen} % provides \isempty test
+\ifPDFTeX
+	\RequirePackage[utf8]{inputenc} % Verwendung Umlaute und Kodierungen
+	\RequirePackage[T1]{fontenc}
+\else
+	\RequirePackage{fontspec}
+\fi
+
+\RequirePackage[UKenglish]{babel} % z.B. englisches Datumformat
+\RequirePackage[autostyle=true]{csquotes} % zum anpassen der Anführungszeichen
+\RequirePackage{ulem} % Verbessertes unterstreichen
+\RequirePackage{ragged2e} % Mehr Möglichkeiten Text auszurichten
+\RequirePackage{cancel} % Durchstreichen
+\RequirePackage{draftwatermark} % Wasserzeichen
+\RequirePackage{lineno} % internallinenumbers
+\RequirePackage{geometry} % Randbreiten festlegen
+\RequirePackage[headsepline,markcase=noupper]{scrlayer-scrpage} % Kopf- und Fußzeilen anpassen
+\RequirePackage{xcolor} % Anpassen von Farben
+\RequirePackage{graphicx} % Besseres einbinden von Bildern
+\RequirePackage{eurosym} % Eurozeichen
+\RequirePackage{pdfpages} % Anhängen von PDFs
+\RequirePackage[colorlinks=true,linkcolor=black,urlcolor=blue]{hyperref} % Hyperlinks und Verlinkungen im Dokument
+%-------------------------------------------------------------------------------------
+\newcounter{Nr}
+\setcounter{Nr}{0}
+\newcounter{Anh}
+\setcounter{Anh}{1}
+%-------------------------------------------------------------------------------------
+% SHORTHANDS
+\newcommand{\tit}[1]{\textit{#1}}
+\newcommand{\ttt}{\texttt}
+\newcommand{\tbf}{\textbf}
+\newcommand{\lis}[1]{\item[]\textbf{#1:}}
+%======================================================================================================
+\newcommand{\Begin}{\thispagestyle{plain}
+	\begin{minipage}{0.6\textwidth}
+		\flushleft\huge\textbf{FSR meeting minutes}\ifthenelse{\equal{\Subtitle}{}}{\\[0.5cm]\large}{\\
+			\small\textbf{\enquote{\Subtitle}}\\[0.5cm]\large}
+		\begin{tabular}{ll}
+			Date:&\Date\\
+			Meeting opened:\quad&{\Starttime}h\\
+			Chairperson:\quad&\Chair\\
+			Keeper of Minutes:\quad&\MinutesKeeper\\
+			\ifthenelse{\equal{\Translator}{}}{}{Translation:\quad&\Translator\\}%
+			Attendance:\quad& See \nameref{sec:attend}
+		\end{tabular}
+		\normalsize\end{minipage}\begin{minipage}{0.4\textwidth}\flushright\includegraphics[width=\textwidth]{FSLogo.png}\flushleft\end{minipage}\vspace*{0.5cm}\\
+	\begin{center}
+		\begin{minipage}{0.7\textwidth}
+			\tableofcontents
+		\end{minipage}
+	\end{center}
+}
+
+\newcommand\Minutes[6][The minutes are thus adopted.]{
+	\poll{Shall the #2 minutes from the #3 be adopted?}{#4}{#5}{#6}{}
+	\vspace{-1em}#1
+}
+%----------------------------------------------------------------------------------------------
+\newcommand{\End}{\begin{flushleft}Meeting closed:\qquad {\Endtime}h \end{flushleft}}
+
+\newcommand{\Signs}[1][7cm]{Bonn, \Date\vspace*{1.5cm}\\
+	\begin{tabular}{p{6cm}p{.5cm}l}\hline \\[-1em]
+		\centering Chairperson: \Chair
+		\ifthenelse{\equal{\Translator}{}}{}{\\}%
+	\end{tabular}\hfill \begin{tabular}{p{#1}p{.5cm}l}\hline \\[-1em]
+		\centering
+		Keeper of Minutes: \MinutesKeeper
+		\ifthenelse{\equal{\Translator}{}}{}{\\Translation: \Translator}%
+\end{tabular}}
+
+\newcommand{\DCFSR}[2][18:30h]{\begin{flushleft}\tiny The next FSR meeting will take place on the {#2} at {#1} on the Discord server of the Fachschaft\footnote{You can get an invitation link by writing us an email to \href{mailto:fsphysik@uni-bonn.de}{fsphysik@uni-bonn.de}} in the category FSR in the "Sitzung"-channel. The agenda can be found in the same category in the channel \#tagesordnung. You can ask a member of the server with the role FSR or above to put a new agend item on the agenda for you.\end{flushleft}}
+
+\newcommand{\NFSR}[3][18:30h]{\begin{flushleft}\tiny The next FSR meeting will take place on the {#2} at {#1} in the {#3}. You can find the agenda on the Discord server of the student council in the category fsr at \#tagesordnung. You can ask members of the FSR to add a new agenda item for you.\end{flushleft}}
+
+
+% Conditional formatting for attendance list, either commas or line breaks
+\newcommand{\Attendance}[2]{%
+	\ifthenelse{\equal{#2}{}}{%
+		\def\wid{\textwidth}%
+		\def\separator{,}
+		}{%
+		\def\wid{0.45\textwidth}%
+		\newpage\Attach{Attendance\def\@currentlabelname{attachment 1}\label{sec:attend}}\def\separator{\\}
+	}%
+	% magic
+	\def\temp{}%
+	\def\doitem##1{%
+		\ifx\temp\empty
+			\def\temp{##1}%
+		\else
+			\edef\temp{\temp\separator ##1}%
+		\fi
+	}%
+	\def\processlist##1,{%
+		\ifx\relax##1\relax
+		\else
+			\doitem{##1}%
+			\expandafter\processlist
+		\fi
+	}%
+	\expandafter\processlist#1,\relax
+
+	\ifthenelse{\equal{#2}{}}{
+		\begin{minipage}{\wid}
+			\begin{tabular}{p{0.975\textwidth}l}\hline\\\end{tabular}
+			\makeatletter\phantomsection\def\@currentlabelname{at the end}\label{sec:attend}\makeatother\\
+			\vspace{-3em}\\
+			\textbf{Attendance:}
+			\temp
+		\end{minipage}
+	}{
+		\quad
+		\begin{minipage}{\wid}
+			\temp
+		\end{minipage}
+		\def\temp{}%
+		\expandafter\processlist#2,\relax
+		\hfill
+		\begin{minipage}{\wid}
+			\temp
+		\end{minipage}
+
+	}
+}
+% ------------------------------------------------------------------------------------
+\newcommand{\AI}[1]{\section*{\uline{AI \theNr:} {#1}}\addcontentsline{toc}{section}{AI \theNr:\ {#1}}\addtocounter{Nr}{1}}
+\newcommand{\Attach}[1]{\section*{Attachment~\theAnh: {#1}}\stepcounter{Anh}}
+
+\newcommand{\poll}[5]{\begin{flushleft}
+		\ifthenelse{\equal{#4}{}}{
+			\tbf{Opinion poll:}\\}{
+				\ifthenelse{\equal{#5}{}}{
+				\tbf{Poll:}\\}{
+					\tbf{Secret poll:}\\}}
+		{#1}\\
+		\begin{tabular}{ll}
+			\quad For:\quad&{#2}\\
+			\quad Against:\quad&{#3}\\
+			\ifthenelse{\equal{#4}{}}{\vspace{-1em}}{%
+				\quad Abstention:\quad&{#4}\\
+				\ifthenelse{\equal{#5}{}}{\vspace{-1em}}{%
+					\quad Invalid:\quad&{#5}
+				}%
+			}%
+		\end{tabular}
+\end{flushleft}}
+
+\newenvironment{poll-list}[3][ll]{\begin{flushleft}\tbf{#2:}\\
+	\ifthenelse{\equal{#3}{}}{}{#3\\}\quad
+	\begin{tabular}{#1}}{\end{tabular}\end{flushleft}}
+
+\newcommand{\RRP}[3][1]{\vspace{-1em}\begin{flushleft}\fbox{\parbox{#1\textwidth}{
+		\large\tbf{Request on the rules of procedures according to §12 para. 4 GO-FSR: #2}\normalsize\vspace*{0.2cm}\\
+		{#3}}}\end{flushleft}}
+
+% EINSTELLUNGEN FÜR PAKETE
+% geometry
+\geometry{bottom=3.5cm,top=2.5cm,left=2.5cm,right=2.5cm}
+% Kopf- und Fußzeilen
+\pagestyle{scrheadings} % Formatierung zu scrheadings setzen
+\clearpairofpagestyles% Alle Kopf und Fußzeilen löschen
+\setkomafont{pageheadfoot}{}
+\setlength\headheight{30pt}
+\cfoot*{\pagemark}
+\ihead{\Large{FSR meeting minutes}\\\normalsize Executive Body of the Fachschaft Physics/Astronomy}
+\ohead{\Large \Date}
+\setheadsepline{.5pt}
+% Schrift Section ändern
+\setkomafont{disposition}{\normalcolor\bfseries}
+\setlength{\parindent}{0pt}
+% Wassermarker setzen
+\SetWatermarkText{DRAFT}
+\SetWatermarkLightness{0.8}
+\SetWatermarkScale{1}
+% Inhaltsverzeichnis Überschrift ändern
+\addto\captionsUKenglish{%
+\renewcommand{\contentsname}{Agenda}}
+% Englisches Datumsformat
+\newcommand*\up[1]{\textsuperscript{#1}}
+% Title, author, date
+\title{Minutes of the FSR-Meeting}
+\date{\today}
+\author{Keeper of the Minutes}

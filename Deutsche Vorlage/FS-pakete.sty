@@ -1,0 +1,221 @@
+% Last updated: 01.07.2025
+% Präambel:
+\KOMAoptions{fontsize=11pt, paper=a4} % Setzten der Schrift- und Papiergröße
+\KOMAoptions{listof=totoc} % Einbindung Tabellen- und Bildverzeichnis in das Inhaltsverzeichnis
+\KOMAoptions{DIV=11} % Bestimmung Randbreite
+
+% ------------------------------------------------------------------------------------
+
+% PAKETE EINBINDEN
+\RequirePackage{iftex}
+\RequirePackage{xifthen} % provides \isempty test
+\ifPDFTeX
+	\RequirePackage[utf8]{inputenc} % Verwendung Umlaute und Kodierungen
+	\RequirePackage[T1]{fontenc}
+\else
+	\RequirePackage{fontspec}
+\fi
+
+\RequirePackage[ngerman]{babel} % z.B. deutsches Datumformat
+\RequirePackage[autostyle=true]{csquotes} % zum anpassen der Anführungszeichen
+\RequirePackage{ulem} % Verbessertes unterstreichen
+\RequirePackage{cancel} % Durchstreichen
+\RequirePackage{ragged2e} % Mehr Möglichkeiten Text auszurichten
+\RequirePackage{draftwatermark} % Wasserzeichen
+\RequirePackage{geometry} % Randbreiten festlegen
+\RequirePackage[headsepline,markcase=noupper]{scrlayer-scrpage} % Kopf- und Fußzeilen anpassen
+\RequirePackage{xcolor} % Anpassen von Farben
+\RequirePackage{graphicx} % Besseres einbinden von Bildern
+\RequirePackage{eurosym} % Eurozeichen
+\RequirePackage[colorlinks=true,linkcolor=black,urlcolor=blue]{hyperref} % Hyperlinks und Verlinkungen im Dokument
+%-------------------------------------------------------------------------------------
+\newcounter{Nr}
+\setcounter{Nr}{0}
+\newcounter{Anh}
+\setcounter{Anh}{1}
+%-------------------------------------------------------------------------------------
+% SHORTHANDS
+\newcommand{\tit}[1]{\textit{#1}}
+\newcommand{\ttt}{\texttt}
+\newcommand{\tbf}{\textbf}
+\newcommand{\lis}[1]{\item[]\textbf{#1:}}
+
+\newcommand\marklessfootnote[1]{ % Fußnote ohne Nummer im Text
+    \addtocounter{footnote}{1} %no call is made to \footnotemark.
+    \footnotetext{#1}
+}
+%=====================================================================================
+\newcommand{\Anfang}[1][]{% geheimes Optionales Argument, um Fußnoten hinterm Namen zu ermöglichen
+	\thispagestyle{plain}
+	\vspace*{-1cm}
+	\hspace*{-0.28cm}
+	\begin{minipage}[t]{0.6\textwidth}
+		\flushleft\huge\textbf{FSR-Sitzungsprotokoll}\ifthenelse{\equal{\Untertitel}{}}{\\[0.5cm]\large}{\\
+			\small\textbf{\enquote{\Untertitel}}\\[0.5cm]\large}
+		\begin{tabular}{ll}
+			Datum:&\Datum\\
+			Sitzung eröffnet:\quad&{\Startzeit} Uhr\\
+			Sitzungsleitung:\quad&\Vorsitz\\
+			Protokollierung:\quad&\Protokollierung
+			\ifthenelse{\equal{#1}{}}{}{\footnote{\label{footduck}#1}} % Fußnote beim Namen!
+			\\
+			\ifthenelse{\equal{\Translator}{}}{}{Übersetzung:\quad&\Translator\\}%
+			Anwesende:\quad& Siehe \nameref{Anwesenort}
+		\end{tabular}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\flushright\includegraphics[width=\textwidth]{FSLogo.png}\flushleft
+	\end{minipage}\vspace*{0.5cm}\\
+	\normalsize
+	\begin{center}
+		\begin{minipage}{0.7\textwidth}
+			\tableofcontents
+		\end{minipage}
+	\end{center}
+}
+
+\newcommand\Protokoll[6][Damit ist das Protokoll angenommen.]{
+	\abst{Soll das #2 Protokoll vom #3 angenommen werden?}{#4}{#5}{#6}{}
+	\vspace{-1em}#1
+}
+%----------------------------------------------------------------------------------------------
+\newcommand{\Ende}{\begin{flushleft}Sitzung geschlossen:\qquad {\Endzeit} Uhr\end{flushleft}}
+
+\newcommand{\ducksign}{}
+\newcommand{\Unterschrift}[1][6.5cm]{Bonn, den  \Datum\vspace*{1.5cm}\\
+	\begin{tabular}{p{6.5cm}p{.5cm}l}\hline \\[-1em]
+		\centering Vorsitz: \Vorsitz
+		\ifthenelse{\equal{\Translator}{}}{}{\\}%
+	\end{tabular}\hfill \begin{tabular}{p{#1}p{.5cm}l}\hline \\[-1em]
+		\centering
+		Protokollierung: \Protokollierung
+			\ifthenelse{\equal{\ducksign}{}}{}{\footref{footduck}} % fußnotem hinterm Namen
+			\ifthenelse{\equal{\Translator}{}}{}{\\Übersetzung: \Translator}%
+\end{tabular}}
+
+\newcommand{\DCFSR}[2][18:30 Uhr]{\begin{flushleft}\tiny Die nächste FSR-Sitzung findet am {#2} um {#1} auf dem Discord-Server der Fachschaft\footnote{Ein Einladungslink zu dem Server bekommt ihr auf Nachfrage per Mail an \href{mailto:fsphysik@uni-bonn.de}{fsphysik@uni-bonn.de}} in der Kategorie FSR im Sitzungs-Channel statt. Die Tagesordnung findet ihr in der selben Kategorie unter \#tagesordnung. Neue TOPs können jederzeit bei einem Mitglied der Rolle FSR oder höher genannt werden und werden dann der Tagesordnung hinzugefügt.\end{flushleft}}
+
+\newcommand{\NFSR}[3][18:30 Uhr]{\begin{flushleft}\tiny Die nächste FSR-Sitzung findet am {#2} um {#1} im {#3} statt. Die Tagesordnung findet ihr auf dem Discord-Server der Fachschaft in der Kategorie fsr unter \#tagesordnung. Eigene TOPs können nach Wunsch aufgenommen werden.\end{flushleft}}
+
+
+% Simple Formatierung für Anwesenheitsliste, damit Fußnoten funktionieren (Namen folgen in TeX-main)
+\newenvironment{Anwesenheit-simple}{
+\begin{minipage}{\textwidth}
+	\begin{tabular}{p{0.975\textwidth}l}\hline\\\end{tabular}
+		\makeatletter\phantomsection\def\@currentlabelname{Ende}\label{Anwesenort}\makeatother\\
+		\vspace{-3em}\\
+		\textbf{Anwesenheitsliste:}}{
+\end{minipage}}
+
+% Konditionale Formatierung für Anwesenheitsliste, entweder Kommas oder Zeilenumbrüche
+% Der Input wird and temp angehangen
+\newcommand{\Anwesenheit}[2]{%
+	\ifthenelse{\equal{#2}{}}{%
+		\def\wid{\textwidth}%
+		\def\separator{,}
+		}{%
+		\def\wid{0.45\textwidth}%
+		%\newpage
+		\Anhang{Anwesenheitsliste\def\@currentlabelname{Anhang 1}\label{Anwesenort}}\def\separator{\\}
+	}%
+	% magic
+	\def\temp{}%
+	\def\doitem##1{%
+		\ifx\temp\empty
+			\def\temp{##1}%
+		\else
+			\edef\temp{\temp\separator ##1}%
+		\fi
+	}%
+	\def\processlist##1,{%
+		\ifx\relax##1\relax
+		\else
+			\doitem{##1}%
+			\expandafter\processlist
+		\fi
+	}%
+	\expandafter\processlist#1,\relax
+
+	\ifthenelse{\equal{#2}{}}{
+		\begin{minipage}{\wid}
+			\begin{tabular}{p{0.975\textwidth}l}\hline\\\end{tabular}
+			\makeatletter\phantomsection\def\@currentlabelname{Ende}\label{Anwesenort}\makeatother\\
+			\vspace{-3em}\\
+			\textbf{Anwesenheitsliste:}
+			\temp
+		\end{minipage}
+	}{
+		\quad
+		\begin{minipage}{\wid}
+			\temp
+		\end{minipage}
+		\def\temp{}%
+		\expandafter\processlist#2,\relax
+		\hfill
+		\begin{minipage}{\wid}
+			\temp
+		\end{minipage}
+
+	}
+}
+%=====================================================================================
+\newcommand{\TOP}[1]{\section*{\uline{TOP \theNr:} {#1}}\addcontentsline{toc}{section}{TOP \theNr:\ {#1}}\addtocounter{Nr}{1}}
+\newcommand{\Anhang}[1]{\section*{Anhang~\theAnh: {#1}}\stepcounter{Anh}}
+
+\newcommand{\abst}[5]{\begin{flushleft}	
+		\ifthenelse{\equal{#4}{}}{
+			\tbf{Meinungsbild:}\\}{
+				\ifthenelse{\equal{#5}{}}{
+				\tbf{Abstimmung:}\\}{
+					\tbf{Geheime Wahl:}\\}}
+		{#1}\\
+		\begin{tabular}{ll}
+			\quad Dafür:\quad&{#2}\\
+			\quad Dagegen:\quad&{#3}\\
+			\ifthenelse{\equal{#4}{}}{\vspace{-1em}}{%
+				\quad Enthaltung:\quad&{#4}\\
+				\ifthenelse{\equal{#5}{}}{\vspace{-1em}}{%
+					\quad Ungültig:\quad&{#5}
+				}%
+			}%
+		\end{tabular}
+\end{flushleft}}
+
+\newenvironment{abst-list}[3][ll]{\begin{flushleft}\tbf{#2:}\\
+	\ifthenelse{\equal{#3}{}}{}{#3\\}\quad
+	\begin{tabular}{#1}}{\end{tabular}\end{flushleft}}
+
+\newcommand{\GOA}[3][1]{\vspace{-1em}\begin{flushleft}\fbox{\parbox{#1\textwidth}{
+		\large\tbf{Geschäftsordnungsantrag nach §12 Abs. 4 GO-FSR: #2}\normalsize\vspace*{0.2cm}\\
+		{#3}}}\end{flushleft}} %TODO Automatisch durch Nummereingabe entsprechenden Antrag auswählen
+
+% ------------------------------------------------------------------------------------
+
+% EINSTELLUNGEN FÜR PAKETE
+% geometry
+\geometry{bottom=3.5cm,top=2.5cm,left=2.5cm,right=2.5cm}
+% Kopf- und Fußzeilen
+\pagestyle{scrheadings} % Formatierung zu scrheadings setzen
+\clearpairofpagestyles% Alle Kopf und Fußzeilen löschen
+\setkomafont{pageheadfoot}{}
+\setlength\headheight{30pt}
+\cfoot*{\pagemark}
+\ihead{\Large{Protokoll FSR-Sitzung}\\\normalsize Fachschaft Physik/Astronomie}
+\ohead{\Large \Datum}
+\setheadsepline{.5pt}
+% Schrift Section ändern
+\setkomafont{disposition}{\normalcolor\bfseries}
+\setlength{\parindent}{0pt}
+% Wassermarker setzen
+\SetWatermarkText{ENTWURF}
+\SetWatermarkLightness{0.8}
+\SetWatermarkScale{1}
+% Inhaltsverzeichnis Überschrift ändern
+\addto\captionsngerman{%
+\renewcommand{\contentsname}{Tagesordnung}}
+
+% Festlegen Grunddaten, weil LaTeX das möchte
+% Titel, Autor und Datum
+\title{Protokoll zur FSR-Sitzung}
+\date{\today}
+\author{Vasco Silver und Dominik Hauner}

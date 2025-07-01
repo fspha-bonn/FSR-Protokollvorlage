@@ -1,0 +1,21 @@
+% Last updated: 01.05.2025
+\RequirePackage{xspace}
+
+\newcommand{\ifzero}[3]{%
+    \ifthenelse{\equal{#1}{0}}{#2}{#3}%
+}
+
+% translations list. optional default zero for full word, else abbreviated
+% -----------------------------------------------------------------------
+% Fachschaft = Fachschaft
+\newcommand{\FSR}[1][0]{\ifzero{#1}{Fachschafts' Council\xspace}{FC\xspace}}
+\newcommand{\FSV}[1][0]{\ifzero{#1}{Student Representatives\xspace}{SR\xspace}}
+\newcommand{\FSVV}[1][0]{\ifzero{#1}{Full Student Body Council\xspace}{FSBC\xspace}}
+\newcommand{\Arbeitskreis}[1][0]{\ifzero{#1}{Working group\xspace}{WG\xspace}}
+\newcommand{\FSK}[1][0]{\ifzero{#1}{Fachschafts' Conference\xspace}{FC\xspace}}
+\newcommand{\Fachgruppe}[1][0]{\ifzero{#1}{Department\xspace}{Department\xspace}}
+\newcommand{\FK}[1][0]{\ifzero{#1}{Department Meeting\xspace}{DM\xspace}}
+\newcommand{\BK}[1][0]{\ifzero{#1}{Appointment Committee\xspace}{AC\xspace}}
+\newcommand{\AStA}[1][0]{\ifzero{#1}{General Students' Union\xspace}{GSU\xspace}}
+
+\newcommand{\AGFS}[1][0]{\ifzero{#1}{Working Group for the further Development of the Degree Program\xspace}{AGFS\xspace}}

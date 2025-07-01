@@ -1,0 +1,28 @@
+\usepackage{tikzducks}
+
+\newcommand{\enteB}[1]{%
+    \pgfmathsetseed{\value{footnote}}%
+    \ExplSyntaxOn
+    \begin{tikzpicture}[inner sep=0pt]%
+        \shuffleducks%
+        \duck[
+            yshift=-200pt,
+            scale=.4,
+            signpost=\scalebox{0.7}{\parbox{0.5cm}{%
+                \centering\tiny \textcolor{white}{\scalebox{.8}{#1}}
+            }},
+            scale=.4,
+            \randomhead,
+            \randomaccessories
+        ]
+    \end{tikzpicture}%
+}%
+
+\makeatletter
+\def\@makefnmark{\hbox{\normalfont\enteB{\@thefnmark}}}%
+\long\def\@makefntext#1{%
+    \parindent 1em\noindent%
+    \hb@xt@1.8em{\hss\normalfont\enteB{\@thefnmark}}#1 % HIER MIT FARBE SPIELEN
+}%
+\makeatother%
+\ExplSyntaxOff

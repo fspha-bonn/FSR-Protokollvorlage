@@ -1,0 +1,110 @@
+% !TeX spellcheck = de_DE
+% Die erste (unkommentierte) Zeile im Dokument legt immer die Dokumentklasse fest
+\documentclass[ngerman,toc=sectionentrywithdots]{scrartcl}
+\usepackage{FS-pakete}
+
+% Stand: 01.07.2025
+
+% Wichtige commands
+%====================================================================
+\DraftwatermarkOptions{stamp=true} % Wasserzeichen, true or false
+\newcommand{\Datum}{00.00.2000}
+\newcommand{\Vorsitz}{Vorsitz} % (Sitzungsleitung, üblicherweise Vorsitz) Unterschrift notwendig
+\newcommand{\Protokollierung}{Protokoll} % Unterschrift notwendig
+\newcommand{\Startzeit}{18:30} % Beginn der Sitzung
+\newcommand{\Endzeit}{19:30} % Ende der Sitzung
+
+% --- Wenn Leer wird es einfach ignoriert ---
+\newcommand{\Translator}{} % Unterschrift nicht notwendig
+\newcommand{\Untertitel}{}
+
+%====================================================================
+
+% Jetzt startet das eigentliche Dokument
+\begin{document}
+	\Anfang
+
+	\TOP{Bestätigung FSR Protokolle}
+	\Protokoll{deutsche}{01.01.2000}{Dafür}{Dagegen}{Enthaltung}
+
+	\TOP{Berichte []}
+	\begin{itemize}
+		\lis{Bericht 1}
+	\end{itemize}
+
+	\TOP{Sonstige}
+	\begin{itemize}
+		\lis{Sonstiges 1}
+	\end{itemize}
+	
+	
+	% Beispiele:
+	\abst{Fragestellung}{dafür}{dagegen}{enthaltung}{ungültig}
+	\begin{abst-list}[lll]{Abstimmung}{Frage}
+		Text:  & dafür & dagegen\\\hline
+		Option1:  & Stimmen1 & A\\
+		Option2:  & Stimmen2 & B
+	\end{abst-list}
+	\GOA[1]{Antrag}{Antragstext}
+
+	%===================================================================
+	\Ende
+	\Unterschrift
+	%\DCFSRC[Uhrzeit]{Datum} % Für Online-Sitzungen; Erstes Argument nur, falls die Uhrzeit abweicht
+	\NFSR[Uhrzeit]{Datum}{Ort} % Erstes Argument nur, falls die Uhrzeit abweicht, ansonsten kann [Uhrzeit] gelöscht werden
+
+	%===================================================================
+	\Anwesenheit{
+		Person 1,
+		Person 2,}{}
+	%\begin{Anwesenheit-simple}
+	%	Person 1, Person 2
+	%\end{Anwesenheit-simple}
+	
+	% Glossar nicht wirklich notwendig
+	%\vfill
+	%\textbf{Für eine Erklärung der Kürzel siehe im Glossar}
+	%\include{../glossar_de}
+\end{document}
+
+% --- Notwendig für jedes Protokoll: ---
+
+% \Anfang               - Erstellt Titel, Inhaltsverzeichnis etc.
+% \Protokoll[]{de/en}{Datum}{Dafür}{Dagegen}{enthaltung}
+%  - Abstimmung für Annahme FSR Protokolle. Optionales Argument für Text nach der Abstimmung.
+% \Ende                 - Erstellt einen Einzeiler mit Sitzungsende.
+% \Unterschrift[6.5cm]  - Erstellt die Unterschriftsfelder. Optionales Argument macht das
+%                         Unterschriftsfeld für Protokoll breiter, falls Name zu lang ist
+% \Anwesenheit{Personen,}{}
+% - Syntax SEHR wichtig, Argumente müssen mit ,} enden!
+%   Für kleine Namensliste ins erste Argument Namen mit Komma separiert schreiben, zweites Argument leer lassen.
+%   Für Namensliste als Anhang in zwei Spalten Namen in erstes und zweites Argument aufteilen.
+
+%====================================================================
+% --- Weitere Befehle ---
+
+% \NFSR[Uhrzeit]{Datum}{Ort} - Wann/Wo die nächste Sitzung stattfindet
+% \DCFSR[Uhrzeit]{Datum}     - Wenn die nächste Sitzung auf discord stattfindet
+
+% \TOP{Titel}             - Erstellt einen TOP Abschnitt. Der counter Nr wird erhöht.
+% \Anhang{Titel}          - Erstellt einen Anhang Abschnitt. Der counter Anh wird erhöht.
+% \GOA[1]{Antrag}{Inhalt} - Erstellt eine Box für einen GO Antrag.
+%                           Erstes Argument zu Anpassen der Breite in Einheiten von \textwidth.
+
+% \abst{Frage}{Dafür}{Dagegen}{Enthaltung}{Ungültig}
+% - Enthaltung oder Ungültig leer lassen, je nach Meinungsbild, Abstimmung oder geheime Wahl.
+% \begin{abst-mult}[ll]{Abstimmung}{Frage}    Option & Stimmen\\    \end{abst-mo}
+% - Abstimmungsumgebung für beliebige Art von Abstimmung
+
+% - Abkürzungen
+% \tit -> \textit
+% \ttt -> \texttt
+% \tbf -> \textbf
+% \lis -> \item[]\textbf  % für Listen
+
+
+% - Bonus
+% \usepackage{../footducks}   % footnotes, but ducks
+% \renewcommand{\ducksign}{Text} % fußnote bei den Unterschriften
+% \marklessfootnote  % Fußnote ohne Referenz im Text, um manuell Fußnoten zu erstellen, wo eigentlich keine möglich sind. \label und \footref funktioniert manchmal.
+% Umgebung Anwesenheit-simple für die kurze Version, erlaubt Fußnoten
