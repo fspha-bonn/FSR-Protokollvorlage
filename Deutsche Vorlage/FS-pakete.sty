@@ -40,10 +40,6 @@
 \newcommand{\tbf}{\textbf}
 \newcommand{\lis}[1]{\item[]\textbf{#1:}}
 
-\newcommand\marklessfootnote[1]{ % Fußnote ohne Nummer im Text
-    \addtocounter{footnote}{1} %no call is made to \footnotemark.
-    \footnotetext{#1}
-}
 %=====================================================================================
 \newcommand{\Anfang}[1][]{% geheimes Optionales Argument, um Fußnoten hinterm Namen zu ermöglichen
 	\thispagestyle{plain}
@@ -188,6 +184,21 @@
 \newcommand{\GOA}[3][1]{\vspace{-1em}\begin{flushleft}\fbox{\parbox{#1\textwidth}{
 		\large\tbf{Geschäftsordnungsantrag nach §12 Abs. 4 GO-FSR: #2}\normalsize\vspace*{0.2cm}\\
 		{#3}}}\end{flushleft}} %TODO Automatisch durch Nummereingabe entsprechenden Antrag auswählen
+
+% ------------------------------------------------------------------------------------
+
+% Manuelle Fußnoten mit hyperref
+
+\newcommand\marklessfootnote[2][]{%
+  \refstepcounter{footnote}%
+    \ifx\relax#1\relax
+        \footnotetext{#2}
+    \else
+        \footnotetext{\label{#1}\hypertarget{fn:#1}{#2}}%
+    \fi
+}
+
+\newcommand{\myfootref}[1]{\hyperlink{fn:#1}{\textsuperscript{\ref{#1}}}}
 
 % ------------------------------------------------------------------------------------
 
