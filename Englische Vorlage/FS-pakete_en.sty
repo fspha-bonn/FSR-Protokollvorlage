@@ -83,59 +83,18 @@
 
 \newcommand{\NFSR}[3][18:30h]{\begin{flushleft}\tiny The next FSR meeting will take place on the {#2} at {#1} in the {#3}. You can find the agenda on the Discord server of the student council in the category fsr at \#tagesordnung. You can ask members of the FSR to add a new agenda item for you.\end{flushleft}}
 
+\newenvironment{Attendance}{
+\begin{minipage}{\textwidth}
+	\begin{tabular}{p{0.975\textwidth}l}\hline\\\end{tabular}
+	\makeatletter\phantomsection\def\@currentlabelname{at the end}\label{sec:attend}\makeatother\\
+	\vspace{-3em}\\
+	\textbf{Attendance:}}{
+\end{minipage}}
 
-% Conditional formatting for attendance list, either commas or line breaks
-\newcommand{\Attendance}[2]{%
-	\ifthenelse{\equal{#2}{}}{%
-		\def\wid{\textwidth}%
-		\def\separator{,}
-		}{%
-		\def\wid{0.45\textwidth}%
-		\newpage\Attach{Attendance\def\@currentlabelname{attachment 1}\label{sec:attend}}\def\separator{\\}
-	}%
-	% magic
-	\def\temp{}%
-	\def\doitem##1{%
-		\ifx\temp\empty
-			\def\temp{##1}%
-		\else
-			\edef\temp{\temp\separator ##1}%
-		\fi
-	}%
-	\def\processlist##1,{%
-		\ifx\relax##1\relax
-		\else
-			\doitem{##1}%
-			\expandafter\processlist
-		\fi
-	}%
-	\expandafter\processlist#1,\relax
-
-	\ifthenelse{\equal{#2}{}}{
-		\begin{minipage}{\wid}
-			\begin{tabular}{p{0.975\textwidth}l}\hline\\\end{tabular}
-			\makeatletter\phantomsection\def\@currentlabelname{at the end}\label{sec:attend}\makeatother\\
-			\vspace{-3em}\\
-			\textbf{Attendance:}
-			\temp
-		\end{minipage}
-	}{
-		\quad
-		\begin{minipage}{\wid}
-			\temp
-		\end{minipage}
-		\def\temp{}%
-		\expandafter\processlist#2,\relax
-		\hfill
-		\begin{minipage}{\wid}
-			\temp
-		\end{minipage}
-
-	}
-}
 % ------------------------------------------------------------------------------------
 \newcommand{\AI}[1]{\section*{\uline{AI \theNr:} {#1}}\addcontentsline{toc}{section}{AI \theNr:\ {#1}}\addtocounter{Nr}{1}}
 \newcommand{\Attach}[1]{\section*{Attachment~\theAnh: {#1}}\stepcounter{Anh}}
+\newcommand{\AttachPDF}[1]{\includepdf[pages=-]{#1}}
 
 \newcommand{\poll}[5]{\begin{flushleft}
 		\ifthenelse{\equal{#4}{}}{

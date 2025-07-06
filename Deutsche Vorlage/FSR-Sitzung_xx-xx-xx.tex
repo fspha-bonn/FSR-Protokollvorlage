@@ -29,12 +29,12 @@
 
 	\TOP{Berichte []}
 	\begin{itemize}
-		\lis{Bericht 1}
+		\lis{Referat 1} Text
 	\end{itemize}
 
 	\TOP{Sonstige}
 	\begin{itemize}
-		\lis{Sonstiges 1}
+		\lis{Sonstiges 1} Text
 	\end{itemize}
 	
 	
@@ -54,12 +54,9 @@
 	\NFSR[Uhrzeit]{Datum}{Ort} % Erstes Argument nur, falls die Uhrzeit abweicht, ansonsten kann [Uhrzeit] gelöscht werden
 
 	%===================================================================
-	\Anwesenheit{
-		Person 1,
-		Person 2,}{}
-	%\begin{Anwesenheit-simple}
-	%	Person 1, Person 2
-	%\end{Anwesenheit-simple}
+	\begin{Anwesenheit}
+		Person 1, Person 2
+	\end{Anwesenheit}
 	
 	% Glossar nicht wirklich notwendig
 	%\vfill
@@ -75,10 +72,9 @@
 % \Ende                 - Erstellt einen Einzeiler mit Sitzungsende.
 % \Unterschrift[6.5cm]  - Erstellt die Unterschriftsfelder. Optionales Argument macht das
 %                         Unterschriftsfeld für Protokoll breiter, falls Name zu lang ist
-% \Anwesenheit{Personen,}{}
-% - Syntax SEHR wichtig, Argumente müssen mit ,} enden!
-%   Für kleine Namensliste ins erste Argument Namen mit Komma separiert schreiben, zweites Argument leer lassen.
-%   Für Namensliste als Anhang in zwei Spalten Namen in erstes und zweites Argument aufteilen.
+% \begin{Anwesenheit}   - Anwesenheitsliste
+%   Namen...
+% \end{Anwesenheit}
 
 %====================================================================
 % --- Weitere Befehle ---
@@ -88,19 +84,22 @@
 
 % \TOP{Titel}             - Erstellt einen TOP Abschnitt. Der counter Nr wird erhöht.
 % \Anhang{Titel}          - Erstellt einen Anhang Abschnitt. Der counter Anh wird erhöht.
+% \AnahngPDF{Dateiname}	  - Einfach \includepdf[pages=-]{Dateiname}
 % \GOA[1]{Antrag}{Inhalt} - Erstellt eine Box für einen GO Antrag.
 %                           Erstes Argument zu Anpassen der Breite in Einheiten von \textwidth.
 
 % \abst{Frage}{Dafür}{Dagegen}{Enthaltung}{Ungültig}
 % - Enthaltung oder Ungültig leer lassen, je nach Meinungsbild, Abstimmung oder geheime Wahl.
-% \begin{abst-mult}[ll]{Abstimmung}{Frage}    Option & Stimmen\\    \end{abst-mo}
+% \begin{abst-list}[ll]{Abstimmung}{Frage}
+%   Option & Stimmen\\
+% \end{abst-list}
 % - Abstimmungsumgebung für beliebige Art von Abstimmung
 
 % - Abkürzungen
 % \tit -> \textit
 % \ttt -> \texttt
 % \tbf -> \textbf
-% \lis -> \item[]\textbf  % für Listen
+% \lis -> \item[]\textbf  % für Listen. Manche Compiler mögen Zeilenumbrüche zwischen \lis und Text nicht.
 
 
 % - Bonus
@@ -109,4 +108,3 @@
 % \marklessfootnote[label]{Text}%  % Fußnote ohne Referenz im Text, um manuell Fußnoten zu erstellen,
 %                                   wo eigentlich keine möglich sind. (ggf. "}%" für spacing wichtig)
 % \myfootref{label}  % Um manuelle Fußnoten zu referenzieren
-% Umgebung Anwesenheit-simple für die kurze Version, erlaubt Fußnoten

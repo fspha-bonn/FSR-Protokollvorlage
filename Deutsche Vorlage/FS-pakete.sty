@@ -27,6 +27,7 @@
 \RequirePackage{xcolor} % Anpassen von Farben
 \RequirePackage{graphicx} % Besseres einbinden von Bildern
 \RequirePackage{eurosym} % Eurozeichen
+\RequirePackage{pdfpages} % Anhängen von PDFs
 \RequirePackage[colorlinks=true,linkcolor=black,urlcolor=blue]{hyperref} % Hyperlinks und Verlinkungen im Dokument
 %-------------------------------------------------------------------------------------
 \newcounter{Nr}
@@ -93,9 +94,8 @@
 
 \newcommand{\NFSR}[3][18:30 Uhr]{\begin{flushleft}\tiny Die nächste FSR-Sitzung findet am {#2} um {#1} im {#3} statt. Die Tagesordnung findet ihr auf dem Discord-Server der Fachschaft in der Kategorie fsr unter \#tagesordnung. Eigene TOPs können nach Wunsch aufgenommen werden.\end{flushleft}}
 
-
-% Simple Formatierung für Anwesenheitsliste, damit Fußnoten funktionieren (Namen folgen in TeX-main)
-\newenvironment{Anwesenheit-simple}{
+% Simple Umgebung zur Formatierung der Anwesenheitsliste
+\newenvironment{Anwesenheit}{
 \begin{minipage}{\textwidth}
 	\begin{tabular}{p{0.975\textwidth}l}\hline\\\end{tabular}
 		\makeatletter\phantomsection\def\@currentlabelname{Ende}\label{Anwesenort}\makeatother\\
@@ -103,60 +103,10 @@
 		\textbf{Anwesenheitsliste:}}{
 \end{minipage}}
 
-% Konditionale Formatierung für Anwesenheitsliste, entweder Kommas oder Zeilenumbrüche
-% Der Input wird and temp angehangen
-\newcommand{\Anwesenheit}[2]{%
-	\ifthenelse{\equal{#2}{}}{%
-		\def\wid{\textwidth}%
-		\def\separator{,}
-		}{%
-		\def\wid{0.45\textwidth}%
-		%\newpage
-		\Anhang{Anwesenheitsliste\def\@currentlabelname{Anhang 1}\label{Anwesenort}}\def\separator{\\}
-	}%
-	% magic
-	\def\temp{}%
-	\def\doitem##1{%
-		\ifx\temp\empty
-			\def\temp{##1}%
-		\else
-			\edef\temp{\temp\separator ##1}%
-		\fi
-	}%
-	\def\processlist##1,{%
-		\ifx\relax##1\relax
-		\else
-			\doitem{##1}%
-			\expandafter\processlist
-		\fi
-	}%
-	\expandafter\processlist#1,\relax
-
-	\ifthenelse{\equal{#2}{}}{
-		\begin{minipage}{\wid}
-			\begin{tabular}{p{0.975\textwidth}l}\hline\\\end{tabular}
-			\makeatletter\phantomsection\def\@currentlabelname{Ende}\label{Anwesenort}\makeatother\\
-			\vspace{-3em}\\
-			\textbf{Anwesenheitsliste:}
-			\temp
-		\end{minipage}
-	}{
-		\quad
-		\begin{minipage}{\wid}
-			\temp
-		\end{minipage}
-		\def\temp{}%
-		\expandafter\processlist#2,\relax
-		\hfill
-		\begin{minipage}{\wid}
-			\temp
-		\end{minipage}
-
-	}
-}
 %=====================================================================================
 \newcommand{\TOP}[1]{\section*{\uline{TOP \theNr:} {#1}}\addcontentsline{toc}{section}{TOP \theNr:\ {#1}}\addtocounter{Nr}{1}}
 \newcommand{\Anhang}[1]{\section*{Anhang~\theAnh: {#1}}\stepcounter{Anh}}
+\newcommand{\AnhangPDF}[1]{\includepdf[pages=-]{#1}}
 
 \newcommand{\abst}[5]{\begin{flushleft}	
 		\ifthenelse{\equal{#4}{}}{

@@ -29,12 +29,12 @@
 
 	\AI{Reports []}
 	\begin{itemize}
-		\lis{Report 1}
+		\lis{Committee 1} Text
 	\end{itemize}
 
 	\AI{Other}
 	\begin{itemize}
-		\lis{Other 1}
+		\lis{Other 1} Text
 	\end{itemize}
 		
 		
@@ -54,9 +54,9 @@
 	\NFSR[Time]{Date}{Place} % First Argument only, if time differs, otherwise [Time] can be removed
 
 	%===================================================================
-	\Attendance{
-		Person 1,
-		Person 2,}{}
+	\begin{Attendance}
+		Person 1, Person 2,
+	\end{Attendance}
 	
 	% glossary not really needed
 	%\vfill
@@ -72,11 +72,9 @@
 % \End             - Creates one line of text with end time
 % \Signs[7cm]      - Crates the fields to sign. Optional argument changes the size
 %                    of the field for the keeper of minutes, if the name is too long
-% \Attendance{Persons,}{}
-% - Syntax VERY important, arguments must end with ",}"!
-%   For a short list separate the names in the first argument with commas,
-%   leave the second argument empty
-%   For a list as appendix in two columns, split names into first and second argument
+% \begin{Attendance}
+%   Namen...
+% \end{Attendance}
 
 %====================================================================
 % --- Other commands ---
@@ -86,19 +84,22 @@
 
 % \AI{Title}                - Creates an AI segment. The counter Nr is increased.
 % \Attach{Title}            - Creates an attachment segment. The counter Anh is increased.
+% \AttachPDF{Filename}		- Simply \includepdf[pages=-]{Filename}
 % \RRP[1]{Request}{Content} - Creates a box for a request on the rules of procedures.
 %                             First argument controls the width of the box, compared to \textwidth
 
 % \poll{Question}{For}{Against}{Abstention}{Invalid}
 % - Leave abstention or invalid empty depending on opinion poll, normal poll or secret poll.
-% \begin{poll-list}[ll]{Poll}{Question}    Option & Votes\\    \end{poll-mo}
+% \begin{poll-list}[ll]{Poll}{Question}
+%   Option & Votes\\
+% \end{poll-list}
 % - List environment for polls, to create any poll
 
 % - Shorthands
 % \tit -> \textit
 % \ttt -> \texttt
 % \tbf -> \textbf
-% \lis -> \item[]\textbf  % for lists
+% \lis -> \item[]\textbf  % for lists. Some compilers may not like line breaks between \lis and the text.
 
 %====================================================================
 % --- Translations ---
@@ -110,4 +111,4 @@
 % \FSR[] -> FC
 
 % The following translations exist:
-% FSR, FSV, FSVV, Arbeitskreis, FSK, Fachgruppe, FK, BK, AStA
+% FSR, FSV, FSVV, AK, FSK, Fachgruppe, FK, BK, AStA
