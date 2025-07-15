@@ -6,7 +6,7 @@
 % Last updated: 01.07.2025
 
 % Important commands
-%====================================================================
+%============================================================
 \DraftwatermarkOptions{stamp=true} % Watermark, true or false
 \newcommand{\Date}{00.00.2000}
 \newcommand{\Chair}{Chairperson} % Needs to sign
@@ -18,14 +18,15 @@
 \newcommand{\Translator}{} % Does not need to sign
 \newcommand{\Subtitle}{}
 
-%====================================================================
+%------------------------------------------------------------
 
 % The important part starts here
 \begin{document}
 	\Begin
+	%============================================================
 
 	\AI{Confirmation of FSR-meeting minutes}
-	\Minutes{German}{01.01.2000}{for}{against}{abst.}
+	\Minutes{German and English}{01.01.2000}{for}{against}{abst.}
 
 	\AI{Reports []}
 	\begin{itemize}
@@ -37,6 +38,7 @@
 		\lis{Other 1} Text
 	\end{itemize}
 		
+	%------------------------------------------------------------
 		
 	% Examples
 	\poll{Question}{for}{against}{abstention}{invalid}
@@ -47,16 +49,17 @@
 	\end{poll-list}
 	\RRP[1]{Request}{Content}
 	
-	%===================================================================
+	%------------------------------------------------------------
 	\End
 	\Signs
-	%\DCFSR[Time]{Date} % For online meetings; First Argument only, if time differs
-	\NFSR[Time]{Date}{Place} % First Argument only, if time differs, otherwise [Time] can be removed
-
-	%===================================================================
+	%============================================================
+	
+	%\DCFSR[Time]{Date} % For online meetings; First Argument only if time differs, then delete [Time]
+	\NFSR{Date}{HISKP} % Optional Argument only if time differs
 	\begin{Attendance}
 		Person 1, Person 2,
 	\end{Attendance}
+	%============================================================
 	
 	% glossary not really needed
 	%\vfill
@@ -64,6 +67,7 @@
 	%\include{../glossar_en}
 \end{document}
 
+%============================================================
 % --- Necessary for every Minutes: ---
 
 % \Begin           - Creates title, toc etc.
@@ -76,7 +80,7 @@
 %   Namen...
 % \end{Attendance}
 
-%====================================================================
+%------------------------------------------------------------
 % --- Other commands ---
 
 % \NFSR[Time]{Date}{Place}  - When/where the next meeting takes place
@@ -101,7 +105,7 @@
 % \tbf -> \textbf
 % \lis -> \item[]\textbf  % for lists. Some compilers may not like line breaks between \lis and the text.
 
-%====================================================================
+%============================================================
 % --- Translations ---
 
 % Translations can be used as \WORD[abbrev.]. If no optional argument is given

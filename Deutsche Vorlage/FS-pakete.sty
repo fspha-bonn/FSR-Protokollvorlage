@@ -71,9 +71,17 @@
 	\end{center}
 }
 
-\newcommand\Protokoll[6][Damit ist das Protokoll angenommen.]{
+\newcommand\Protokoll[6][1]{
 	\abst{Soll das #2 Protokoll vom #3 angenommen werden?}{#4}{#5}{#6}{}
-	\vspace{-1em}#1
+	\vspace{-1em}
+	\ifthenelse{\equal{#1}{1}}{
+		Damit ist das Protokoll angenommen.
+	}{\ifthenelse{\equal{#1}{2}}{
+		Damit sind die Protokolle angenommen.
+	}{
+		#1
+	}
+	}
 }
 %----------------------------------------------------------------------------------------------
 \newcommand{\Ende}{\begin{flushleft}Sitzung geschlossen:\qquad {\Endzeit} Uhr\end{flushleft}}

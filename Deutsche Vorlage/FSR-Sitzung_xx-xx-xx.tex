@@ -6,7 +6,7 @@
 % Stand: 01.07.2025
 
 % Wichtige commands
-%====================================================================
+%============================================================
 \DraftwatermarkOptions{stamp=true} % Wasserzeichen, true or false
 \newcommand{\Datum}{00.00.2000}
 \newcommand{\Vorsitz}{Vorsitz} % (Sitzungsleitung, üblicherweise Vorsitz) Unterschrift notwendig
@@ -18,14 +18,15 @@
 \newcommand{\Translator}{} % Unterschrift nicht notwendig
 \newcommand{\Untertitel}{}
 
-%====================================================================
+%------------------------------------------------------------
 
 % Jetzt startet das eigentliche Dokument
 \begin{document}
 	\Anfang
+	%============================================================
 
 	\TOP{Bestätigung FSR Protokolle}
-	\Protokoll{deutsche}{01.01.2000}{Dafür}{Dagegen}{Enthaltung}
+	\Protokoll[2]{deutsche und englische}{01.01.2000}{Dafür}{Dagegen}{Enthaltung}
 
 	\TOP{Berichte []}
 	\begin{itemize}
@@ -37,6 +38,7 @@
 		\lis{Sonstiges 1} Text
 	\end{itemize}
 	
+	%------------------------------------------------------------
 	
 	% Beispiele:
 	\abst{Fragestellung}{dafür}{dagegen}{enthaltung}{ungültig}
@@ -47,16 +49,17 @@
 	\end{abst-list}
 	\GOA[1]{Antrag}{Antragstext}
 
-	%===================================================================
+	%------------------------------------------------------------
 	\Ende
 	\Unterschrift
-	%\DCFSRC[Uhrzeit]{Datum} % Für Online-Sitzungen; Erstes Argument nur, falls die Uhrzeit abweicht
-	\NFSR[Uhrzeit]{Datum}{Ort} % Erstes Argument nur, falls die Uhrzeit abweicht, ansonsten kann [Uhrzeit] gelöscht werden
+	%============================================================
 
-	%===================================================================
+	%\DCFSRC[Uhrzeit]{Datum} % Für Online-Sitzungen; Erstes Argument nur, falls die Uhrzeit abweicht, sonst [Uhrzeit] löschen
+	\NFSR{Datum}{HISKP} % Optionales Argument nur, falls die Uhrzeit abweicht
 	\begin{Anwesenheit}
 		Person 1, Person 2
 	\end{Anwesenheit}
+	%============================================================
 	
 	% Glossar nicht wirklich notwendig
 	%\vfill
@@ -64,11 +67,13 @@
 	%\include{../glossar_de}
 \end{document}
 
+%============================================================
 % --- Notwendig für jedes Protokoll: ---
 
 % \Anfang               - Erstellt Titel, Inhaltsverzeichnis etc.
-% \Protokoll[]{de/en}{Datum}{Dafür}{Dagegen}{enthaltung}
+% \Protokoll[1]{de/en}{Datum}{Dafür}{Dagegen}{enthaltung}
 %  - Abstimmung für Annahme FSR Protokolle. Optionales Argument für Text nach der Abstimmung.
+%  - Abkürzungen: "1": Ein Protokoll angenommen (Singular), "2": Mehrere Protokolle angenommen
 % \Ende                 - Erstellt einen Einzeiler mit Sitzungsende.
 % \Unterschrift[6.5cm]  - Erstellt die Unterschriftsfelder. Optionales Argument macht das
 %                         Unterschriftsfeld für Protokoll breiter, falls Name zu lang ist
@@ -76,7 +81,7 @@
 %   Namen...
 % \end{Anwesenheit}
 
-%====================================================================
+%------------------------------------------------------------
 % --- Weitere Befehle ---
 
 % \NFSR[Uhrzeit]{Datum}{Ort} - Wann/Wo die nächste Sitzung stattfindet
